@@ -7,19 +7,17 @@ import az.librarycrudapi.Entity.Author;
 import az.librarycrudapi.Entity.Book;
 import az.librarycrudapi.Repository.AuthorRepository;
 import az.librarycrudapi.Repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BookService {
 
-    @Autowired
-    private BookRepository bookRepository;
-
-    @Autowired
-    private AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
     public BookResponseDto create(BookRequestDto dto) {
         Author author = authorRepository.findById(dto.getAuthorId())

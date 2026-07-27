@@ -5,16 +5,16 @@ import az.librarycrudapi.Dto.MemberRequestDto;
 import az.librarycrudapi.Dto.MemberResponseDto;
 import az.librarycrudapi.Entity.Member;
 import az.librarycrudapi.Repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class MemberService {
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     public MemberResponseDto create(MemberRequestDto dto) {
         Member member = new Member();

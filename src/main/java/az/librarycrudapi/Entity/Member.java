@@ -22,6 +22,6 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "borrowedBy")
+    @OneToMany(mappedBy = "borrowedBy", fetch = FetchType.LAZY)
     private List<Book> borrowedBooks;
 }

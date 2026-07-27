@@ -5,16 +5,16 @@ import az.librarycrudapi.Dto.AuthorRequestDto;
 import az.librarycrudapi.Dto.AuthorResponseDto;
 import az.librarycrudapi.Entity.Author;
 import az.librarycrudapi.Repository.AuthorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthorService {
 
-    @Autowired
-    private AuthorRepository authorRepository;
+    private final AuthorRepository authorRepository;
 
     public AuthorResponseDto create(AuthorRequestDto dto) {
         Author author = new Author();
