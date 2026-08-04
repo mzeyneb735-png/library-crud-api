@@ -24,4 +24,7 @@ public class Member {
 
     @OneToMany(mappedBy = "borrowedBy", fetch = FetchType.LAZY)
     private List<Book> borrowedBooks;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Order> orders;
 }

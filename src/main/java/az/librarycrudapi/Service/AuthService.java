@@ -5,6 +5,8 @@ import az.librarycrudapi.Dto.AuthResponseDto;
 import az.librarycrudapi.Entity.Role;
 import az.librarycrudapi.Entity.User;
 import az.librarycrudapi.Exception.ResourceNotFoundException;
+import az.librarycrudapi.Exception.UserAlreadyExistsException;
+import az.librarycrudapi.Exception.BadCredentialsException;
 import az.librarycrudapi.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +22,7 @@ public class AuthService {
 
     public String register(AuthRequestDto dto) {
         if (userRepository.findByUsername(dto.getUsername()).isPresent()) {
-            throw new RuntimeException("Username artiq movcuddur");
+            throw new UserAlreadyExistsException("Username artiq movcuddur");
         }
 
         User user = new User();
@@ -37,7 +39,7 @@ public class AuthService {
                 .orElseThrow(() -> new ResourceNotFoundException("Istifadeci tapilmadi"));
 
         if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Sifre yanlisdir");
+            throw new BadCredentialsException("Sifre yanlisdir");
         }
 
         String token = jwtService.generateToken(user.getUsername(), user.getRole().name());

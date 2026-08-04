@@ -17,7 +17,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret:defaultSecretKeyForLibraryApiProject2026SecureKey}")
+    @Value("${jwt.secret}")
     private String secretKey;
 
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24;
