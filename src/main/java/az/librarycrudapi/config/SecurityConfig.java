@@ -19,7 +19,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +29,6 @@ import java.util.Map;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -62,13 +60,14 @@ public class SecurityConfig {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
+            ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> body = new HashMap<>();
             body.put("timestamp", LocalDateTime.now().toString());
             body.put("status", HttpStatus.UNAUTHORIZED.value());
             body.put("error", "Unauthorized");
             body.put("message", "Giris edilmeyib ve ya token sehvdir");
 
-            response.getWriter().write(objectMapper.writeValueAsString(body));
+            response.getWriter().write(mapper.writeValueAsString(body));
         };
     }
 
@@ -78,13 +77,14 @@ public class SecurityConfig {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
+            ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> body = new HashMap<>();
             body.put("timestamp", LocalDateTime.now().toString());
             body.put("status", HttpStatus.FORBIDDEN.value());
             body.put("error", "Forbidden");
             body.put("message", "Bu emeliyyat üçün icazaniz yoxdur");
 
-            response.getWriter().write(objectMapper.writeValueAsString(body));
+            response.getWriter().write(mapper.writeValueAsString(body));
         };
     }
 

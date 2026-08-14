@@ -3,8 +3,8 @@ package az.librarycrudapi.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "members")
@@ -22,9 +22,6 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "borrowedBy", fetch = FetchType.LAZY)
-    private List<Book> borrowedBooks;
-
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private List<Order> orders;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Order> orders = new HashSet<>();
 }

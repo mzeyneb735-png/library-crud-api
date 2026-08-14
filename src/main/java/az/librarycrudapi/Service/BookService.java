@@ -8,6 +8,8 @@ import az.librarycrudapi.Entity.Book;
 import az.librarycrudapi.Repository.AuthorRepository;
 import az.librarycrudapi.Repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,12 +40,14 @@ public class BookService {
                 .map(this::toResponseDto);
     }
 
+    @Cacheable(value = "books", key = "#id")
     public BookResponseDto getById(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Kitab tapilmadi " + id));
         return toResponseDto(book);
     }
 
+    @CacheEvict(value = "books", key = "#id")
     public BookResponseDto update(Long id, BookRequestDto dto) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Kitab tapilmadi " + id));
@@ -60,6 +64,7 @@ public class BookService {
         return toResponseDto(updated);
     }
 
+    @CacheEvict(value = "books", key = "#id")
     public void delete(Long id) {
         if (!bookRepository.existsById(id)) {
             throw new ResourceNotFoundException("Kitab tapilmadi " + id);
